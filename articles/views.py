@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Article
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from . import forms
 
 
 def article_list(request):
@@ -17,5 +19,28 @@ def article_detail(request, slug):
     data = {'article': article}
     
     return render(request, 'articles/article_detail.html', data)
+
+
+@login_required(login_url="/accounts/login/")
+def article_create(request):
+
+    if request.method == "POST":
+        form = forms.CreateArticleForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            
+            # first give instance of saved form, without actually saving yet 
+            instance = form.save(commit=False)
+            
+            # attach current logged in author 
+            instance.author = request.user 
+            instance.save()
+
+            return redirect('articles:list')
+
+    else:
+        form = forms.CreateArticleForm()
     
-    # return HttpResponse(slug)
+    data = {"form": form}
+    
+    return render(request, 'articles/article_create.html', data)
