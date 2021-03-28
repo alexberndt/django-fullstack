@@ -2,25 +2,55 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
         <title>The ML webapp</title>
-        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
     </head>
     <body>
-        <header class="wrapper">
-            <h1><a href="{% url 'articles:list' %}">Articles List</a></h1>
-            <nav>
-                <ul>
-                    <li>
-                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <a class="navbar-brand" href="#">The ML Webapp</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'articles:list' %}">Articles<span class="sr-only"></span></a>
                     </li>
-                </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'articles:create' %}">Create<span class="sr-only"></span></a>
+                    </li>
+                    </ul>
+                </div>
             </nav>
-        </header>
-        <div class="wrapper">
+        </div>
+
+        <div class="container">
+            <h1><a href="{% url 'articles:list' %}">Articles List</a></h1>
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                        <li>
+
+                        </li>
+                        <li>
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" type="submit">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
             {% block content %}
             {% endblock %}
         </div>
