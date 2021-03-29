@@ -6,6 +6,8 @@ __pycache__
 db.sqlite3
 media
 
+secret_key.json
+
 # Backup files # 
 *.bak 
 

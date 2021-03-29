@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+import json
+# import logging
+# log = logging.getLogger(__name__)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,8 +11,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')=bs4z2)nq0&9(2@^mk3jfm3)k1s_5k^e79fux!9xd)xmi7*gy'
+# Import custom settings
+try:
+    key_file = os.path.join(Path(__file__).resolve().parent, 'secret_key.json')
+    print(key_file)
+    with open(key_file, 'r') as read_file:
+        json_string = read_file.read()
+    data = json.loads(json_string)
+    SECRET_KEY = data['SECRET_KEY']
+    print("SECRET KEY: LOADING FROM FILE")
+except:
+    SECRET_KEY = ')=bs4z2)nq0&9(2@^mk3jfm3)k1s_5k^e79fux!9xd)xmi7*gy'
+    print("SECRET KEY: FILE NOT FOUND - USING IN-CODE LINE")
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -116,6 +133,3 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-print("media root: {}".format(MEDIA_ROOT))
-print("media url : {}".format(MEDIA_URL))
